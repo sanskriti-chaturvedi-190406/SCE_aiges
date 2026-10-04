@@ -1,0 +1,290 @@
+:root {
+  --paper: #f4f3ee;
+  --ink: #202b26;
+  --forest: #27483d;
+  --button: #101713;
+  --button-hover: #26322c;
+  --white: #fffefa;
+}
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Manrope", Arial, sans-serif;
+}
+.hero {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  height: 100svh;
+  min-height: 0;
+  overflow: hidden;
+
+  background-color: var(--paper);
+  background-image: url("aegis_bgimage.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    rgba(247, 242, 232, 0.9) 0%,
+    rgba(247, 242, 232, 0.75) 27%,
+    rgba(247, 242, 232, 0.32) 47%,
+    transparent 67%
+  );
+}
+
+.hero::after {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    transparent 45%,
+    rgba(23, 50, 77, 0.04) 64%,
+    rgba(23, 50, 77, 0.13) 100%
+  );
+}
+
+.wordmark {
+  position: absolute;
+  z-index: 1;
+  top: 8.5%;
+  left: 4.1%;
+
+  color: var(--button);
+  font: 500 clamp(42px, 3.2vw, 58px) / 0.9 "DM Serif Display", Georgia, serif;
+  letter-spacing: -0.055em;
+  text-decoration: none;
+}
+
+.hero-copy {
+  position: absolute;
+  z-index: 1;
+  top: clamp(185px, 34vh, 370px);
+  left: 4.1%;
+  width: min(52%, 700px);
+  transform: none;
+}
+
+h1 {
+  margin: 0 0 12px;
+  color: var(--forest);
+  font: italic 400 clamp(24px, 1.8vw, 34px) / 1.15
+    "DM Serif Display", Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+
+.subheading {
+  margin: 0;
+  color: var(--ink);
+  font-size: clamp(38px, 3.45vw, 62px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  line-height: 1.06;
+}
+
+.subheading strong {
+  font-weight: 700;
+}
+
+.description {
+  max-width: 540px;
+  margin: 25px 0 0;
+  color: #33423b;
+  font-size: clamp(16px, 1.2vw, 19px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  line-height: 1.52;
+  text-wrap: pretty;
+}
+
+.actions {
+  position: absolute;
+  z-index: 2;
+  right: 5.3%;
+  bottom: 6.2%;
+  left: 4.1%;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.action-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50px;
+  padding: 12px 20px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 15px;
+
+  background: var(--button);
+  color: var(--white);
+  box-shadow: 0 5px 14px rgba(16, 23, 19, 0.14);
+
+  font-size: clamp(15px, 1.1vw, 18px);
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  line-height: 1;
+  text-decoration: none;
+
+  transition: background-color 0.18s ease, transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.action-button:hover {
+  background: var(--button-hover);
+  box-shadow: 0 8px 18px rgba(16, 23, 19, 0.2);
+  transform: translateY(-2px);
+}
+
+.action-button:focus-visible,
+.wordmark:focus-visible {
+  outline: 3px solid #e9a13b;
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .hero-copy {
+    width: min(60%, 570px);
+  }
+
+  .description {
+    max-width: 470px;
+  }
+}
+
+@media (max-width: 640px) {
+  .hero {
+    height: 100svh;
+    min-height: 0;
+    background-position: 61% center;
+  }
+
+  .hero::before {
+    background: linear-gradient(
+      180deg,
+      rgba(247, 242, 232, 0.96) 0%,
+      rgba(247, 242, 232, 0.85) 49%,
+      rgba(247, 242, 232, 0.38) 79%,
+      transparent 100%
+    );
+  }
+
+  .wordmark {
+    top: 6%;
+    left: 5%;
+    font-size: 46px;
+  }
+
+  .hero-copy {
+    top: 18%;
+    left: 5%;
+    width: 90%;
+  }
+
+  h1 {
+    margin-bottom: 10px;
+    font-size: clamp(23px, 6.2vw, 31px);
+  }
+
+  .subheading {
+    font-size: clamp(37px, 10.5vw, 50px);
+    line-height: 1.08;
+  }
+
+  .description {
+    max-width: 440px;
+    margin-top: 21px;
+    font-size: 16px;
+    line-height: 1.46;
+  }
+
+  .desktop-break {
+    display: none;
+  }
+
+  .actions {
+    right: 5%;
+    bottom: 5%;
+    left: 5%;
+
+    flex-direction: column;
+    align-items: stretch;
+    gap: 11px;
+  }
+
+  .action-button {
+    width: 100%;
+    min-height: 51px;
+    border-radius: 14px;
+    font-size: 16px;
+  }
+}
+
+/* Better behaviour for short landscape screens */
+@media (max-height: 520px) and (min-width: 641px) {
+  .wordmark {
+    top: 7%;
+    font-size: 42px;
+  }
+
+  .hero-copy {
+    top: 25%;
+  }
+
+  h1 {
+    margin-bottom: 7px;
+    font-size: 24px;
+  }
+
+  .subheading {
+    font-size: 38px;
+  }
+
+  .description {
+    margin-top: 14px;
+    font-size: 15px;
+  }
+
+  .actions {
+    bottom: 4%;
+  }
+
+  .action-button {
+    min-height: 43px;
+    padding: 10px 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
