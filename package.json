@@ -1,0 +1,23 @@
+{
+  "name": "aegis",
+  "version": "1.0.0",
+  "description": "Aegis is a web-based disaster-relief coordination platform designed to connect affected people, volunteers, relief stations, shelters, and administrators through one centralized system.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sanskriti-chaturvedi-190406/Aegis.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sanskriti-chaturvedi-190406/Aegis/issues"
+  },
+  "homepage": "https://github.com/sanskriti-chaturvedi-190406/Aegis#readme",
+  "devDependencies": {
+    "vite": "^8.3.3"
+  }
+}
