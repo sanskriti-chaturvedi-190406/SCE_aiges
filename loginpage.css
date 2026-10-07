@@ -1,0 +1,402 @@
+:root {
+  --paper: #f4f3ee;
+  --ink: #202b26;
+  --forest: #27483d;
+  --button: #101713;
+  --button-hover: #26322c;
+  --white: #fffefa;
+  --muted: #68736d;
+  --border: rgba(32, 43, 38, 0.16);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Manrope", Arial, sans-serif;
+}
+
+/*PAGE*/
+
+.login-page {
+  position: relative;
+  isolation: isolate;
+
+  width: 100%;
+  min-height: 100svh;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+
+  background-color: var(--paper);
+  background-image: url("aegis_bgimage.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+/* For improving Readability */
+
+.login-page::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+
+  content: "";
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(247, 242, 232, 0.78) 0%,
+      rgba(247, 242, 232, 0.62) 50%,
+      rgba(247, 242, 232, 0.78) 100%
+    );
+}
+/* WORDMARK*/
+.wordmark {
+  position: absolute;
+  z-index: 2;
+
+  top: 7%;
+  left: 4.1%;
+
+  color: var(--button);
+
+  font:
+    500 clamp(42px, 3.2vw, 58px) / 0.9
+    "DM Serif Display",
+    Georgia,
+    serif;
+
+  letter-spacing: -0.055em;
+  text-decoration: none;
+
+  transition: opacity 0.2s ease;
+}
+
+.wordmark:hover {
+  opacity: 0.72;
+}
+
+/*LOGIN CARD*/
+.login-card {
+  position: relative;
+  z-index: 2;
+
+  width: min(420px, 90%);
+
+  padding: 42px 42px 34px;
+
+  background: rgba(255, 254, 250, 0.88);
+
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 22px;
+
+  box-shadow:
+    0 20px 60px rgba(32, 43, 38, 0.10),
+    0 4px 15px rgba(32, 43, 38, 0.05);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+/*HEADER*/
+
+.login-header {
+  margin-bottom: 30px;
+}
+
+.login-header h1 {
+  margin: 0 0 7px;
+
+  color: var(--forest);
+
+  font:
+    italic 400 clamp(29px, 2.3vw, 36px) / 1.1
+    "DM Serif Display",
+    Georgia,
+    serif;
+
+  letter-spacing: -0.025em;
+}
+
+.login-header p {
+  margin: 0;
+
+  color: var(--muted);
+
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+/*FORM*/
+
+.login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 19px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.field label,
+.password-label label {
+  color: var(--ink);
+
+  font-size: 13px;
+  font-weight: 700;
+}
+
+/* Password row */
+
+.password-label {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.password-label a {
+  color: var(--forest);
+
+  font-size: 12px;
+  font-weight: 600;
+
+  text-decoration: none;
+
+  transition: opacity 0.18s ease;
+}
+
+.password-label a:hover {
+  opacity: 0.65;
+}
+
+/* Inputs */
+
+.field input {
+  width: 100%;
+  height: 49px;
+
+  padding: 0 15px;
+
+  border: 1px solid var(--border);
+  border-radius: 11px;
+
+  outline: none;
+
+  background: rgba(255, 255, 255, 0.72);
+
+  color: var(--ink);
+
+  font-family: "Manrope", Arial, sans-serif;
+  font-size: 14px;
+
+  transition:
+    border-color 0.18s ease,
+    box-shadow 0.18s ease,
+    background-color 0.18s ease;
+}
+
+.field input::placeholder {
+  color: #9aa19d;
+}
+
+.field input:focus {
+  border-color: rgba(39, 72, 61, 0.55);
+
+  background: var(--white);
+
+  box-shadow:
+    0 0 0 3px rgba(39, 72, 61, 0.08);
+}
+
+/*LOGIN BUTTON*/
+
+.login-button {
+  width: 100%;
+  min-height: 50px;
+
+  margin-top: 5px;
+
+  border: 0;
+  border-radius: 12px;
+
+  background: var(--button);
+  color: var(--white);
+
+  font-family: "Manrope", Arial, sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+
+  cursor: pointer;
+
+  box-shadow:
+    0 5px 14px rgba(16, 23, 19, 0.14);
+
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.login-button:hover {
+  background: var(--button-hover);
+
+  box-shadow:
+    0 8px 18px rgba(16, 23, 19, 0.20);
+
+  transform: translateY(-2px);
+}
+
+.login-button:active {
+  transform: translateY(0);
+}
+
+/*SIGN UP*/
+.signup-text {
+  margin: 25px 0 0;
+
+  color: var(--muted);
+
+  text-align: center;
+
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.signup-text a {
+  color: var(--forest);
+
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.signup-text a:hover {
+  text-decoration: underline;
+}
+/*DECORATIVE WAVES*/
+.wave {
+  position: absolute;
+  z-index: 1;
+
+  width: 85px;
+  height: 45px;
+
+  opacity: 0.65;
+
+  background:
+    repeating-linear-gradient(
+      170deg,
+      transparent 0 8px,
+      #b89d77 9px 10px,
+      transparent 11px 17px
+    );
+}
+
+.wave-left {
+  left: 4%;
+  bottom: 9%;
+
+  transform: rotate(-5deg);
+}
+
+.wave-right {
+  right: 4%;
+  top: 15%;
+
+  transform: rotate(175deg);
+}
+
+/*FOCUS */
+
+.wordmark:focus-visible,
+.password-label a:focus-visible,
+.signup-text a:focus-visible {
+  outline: 3px solid #e9a13b;
+  outline-offset: 4px;
+}
+
+.login-button:focus-visible {
+  outline: 3px solid #e9a13b;
+  outline-offset: 4px;
+}
+
+/*MOBILE*/
+
+@media (max-width: 640px) {
+
+  .login-page {
+    background-position: 61% center;
+  }
+
+  .login-page::before {
+    background:
+      linear-gradient(
+        180deg,
+        rgba(247, 242, 232, 0.93) 0%,
+        rgba(247, 242, 232, 0.78) 55%,
+        rgba(247, 242, 232, 0.65) 100%
+      );
+  }
+
+  .wordmark {
+    top: 6%;
+    left: 5%;
+
+    font-size: 46px;
+  }
+
+  .login-card {
+    width: 90%;
+    max-width: 400px;
+
+    padding: 34px 26px 28px;
+
+    border-radius: 19px;
+  }
+
+  .login-header {
+    margin-bottom: 26px;
+  }
+
+  .login-header h1 {
+    font-size: 31px;
+  }
+
+  .wave-left {
+    left: -5%;
+    bottom: 5%;
+  }
+
+  .wave-right {
+    right: -5%;
+    top: 20%;
+  }
+}
+
+/*REDUCED MOTION*/
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+  }
+}
