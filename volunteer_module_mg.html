@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aegis - Volunteer Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;1,600&family=Inter:wght@400;500;600&display=swap');
+        .font-serif-custom { font-family: 'Playfair Display', serif; }
+        body { font-family: 'Inter', sans-serif; }
+        .bg-cream { background-color: #FDFaf5; }
+        .bg-card-beige { background-color: #fbf5eb; }
+        
+        .toggle-checkbox:checked { right: 0; border-color: #059669; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #059669; }
+
+        #page {
+        background:
+        linear-gradient(rgba(253, 250, 245, 0.25), rgba(253, 250, 245, 0.25)),
+        url("Aegis/aegis_bgimage.png") center / cover no-repeat;
+        }
+ 
+    </style>
+</head>
+<body class="h-screen overflow-hidden flex flex-col md:flex-row text-slate-900" id="page">
+    <!-- Left Control Panel (Responsibilities: Profile, Verification, Availability, Capabilities) -->
+    <div class="w-full md:w-1/3 lg:w-1/4 p-6 md:p-8 flex flex-col z-20 bg-cream/80 shadow-xl h-full overflow-y-auto">
+        
+        <div class="mb-8 text-3xl font-serif-custom font-bold tracking-tight">
+            aegis <span class="text-[10px] font-sans text-slate-400 font-bold uppercase tracking-widest ml-2 border border-slate-200 px-2 py-1 rounded">Volunteer</span>
+        </div>
+
+        <!-- Verification Status UI -->
+        <div class="bg-card-beige border border-amber-900/10 rounded-2xl p-4 mb-6 flex items-start space-x-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center flex-shrink-0 border border-emerald-200">
+                <i class="fa-solid fa-user-shield text-emerald-700 text-xl"></i>
+            </div>
+            <div class="flex-1">
+                <div class="flex items-center space-x-2">
+                    <h3 class="font-bold text-slate-900">Rahul Sharma</h3>
+                </div>
+                <span id="verification-badge" class="inline-flex items-center text-[10px] font-bold mt-1 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded uppercase tracking-wider">
+                    <i class="fa-solid fa-check mr-1"></i> APPROVED
+                </span>
+            </div>
+        </div>
+
+        <!-- Availability Status -->
+        <div class="mb-8">
+            <h4 class="text-xs font-semibold tracking-widest text-slate-500 uppercase mb-3">Operational Status</h4>
+            <div class="flex items-center justify-between bg-white p-4 rounded-xl border border-slate-200 shadow-sm">
+                <div>
+                    <span id="status-text" class="text-sm font-bold text-slate-400">NOT_AVAILABLE</span>
+                    <p class="text-[10px] text-slate-500 mt-1">Toggle to receive requests</p>
+                </div>
+                <div class="relative inline-block w-12 mr-2 align-middle select-none transition duration-200 ease-in">
+                    <input type="checkbox" id="availability-toggle" class="toggle-checkbox absolute block w-6 h-6 rounded-full bg-white border-4 appearance-none cursor-pointer transition-colors duration-200 ease-in-out z-10 top-0 left-0" onchange="toggleStatus()"/>
+                    <label for="availability-toggle" class="toggle-label block overflow-hidden h-6 rounded-full bg-slate-300 cursor-pointer transition-colors duration-200 ease-in-out"></label>
+                </div>
+            </div>
+        </div>
+
+        <!-- Capabilities Selection -->
+        <div class="mb-6">
+            <h4 class="text-xs font-semibold tracking-widest text-slate-500 uppercase mb-3">My Capabilities</h4>
+            <div class="flex flex-wrap gap-2" id="capabilities-container">
+                <!-- Rendered via JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Dashboard Area (Responsibilities: Suitable request list, Accept, Update status) -->
+    <div class="flex-1 relative bg-slate-200/40 h-full">
+        
+        <div class="absolute top-6 right-6 bg-white px-4 py-2 rounded-full shadow-md flex items-center space-x-2 border border-slate-100 z-10">
+            <div class="w-2.5 h-2.5 rounded-full bg-emerald-600 shadow-[0_0_8px_rgba(5,150,105,0.6)] animate-pulse"></div>
+            <span class="text-xs font-semibold text-slate-700" id="current-location">Locating...</span>
+        </div>
+
+        <!-- Task Sheet -->
+        <div class="absolute bottom-0 left-0 right-0 md:left-6 md:bottom-6 md:w-[500px] bg-white md:rounded-3xl rounded-t-3xl shadow-[0_-10px_40px_rgba(0,0,0,0.08)] z-20 flex flex-col max-h-[80vh]">
+            
+            <div class="p-6 md:p-8 pb-4 border-b border-slate-100 flex justify-between items-end">
+                <div>
+                    <p class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-2">Suitable Requests</p>
+                    <h2 class="text-3xl font-serif-custom italic text-slate-800">Mission Queue</h2>
+                </div>
+            </div>
+
+            <!-- Task List -->
+            <div class="p-6 md:p-8 pt-4 overflow-y-auto space-y-4" id="task-list">
+                <!-- Tasks rendered here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Pointer 43 & 47 Exact State Variables
+        const state = {
+            userId: "vol_123",
+            verificationStatus: "APPROVED",
+            availability: "NOT_AVAILABLE",
+            capabilities: ["Food distribution", "Water distribution"],
+            activeTask: null,
+            location: { name: "Dehradun, Uttarakhand" }
+        };
+
+        const allCapabilities = [
+            "Food distribution", 
+            "Water distribution", 
+            "First aid", 
+            "Transportation", 
+            "Evacuation assistance", 
+            "Shelter assistance"
+        ];
+
+        // Mock database of requests 
+        const mockRequests = [
+            { id: "REQ-101", type: "Water distribution", distance: "0.8 km", people: 4, desc: "Need drinking water at community center.", status: "PENDING" },
+            { id: "REQ-102", type: "First aid", distance: "1.2 km", people: 1, desc: "Minor injuries, basic first aid required.", status: "PENDING" },
+            { id: "REQ-103", type: "Transportation", distance: "2.1 km", people: 3, desc: "Family requires transport to nearest shelter.", status: "PENDING" }
+        ];
+
+        function init() {
+            document.getElementById('current-location').innerText = state.location.name;
+            renderCapabilities();
+            renderTasks();
+        }
+
+        // Workflow: Availability Toggle
+        function toggleStatus() {
+            if (state.verificationStatus !== "APPROVED") {
+                alert("You must be APPROVED to go online.");
+                document.getElementById('availability-toggle').checked = false;
+                return;
+            }
+
+            const toggle = document.getElementById('availability-toggle');
+            const statusText = document.getElementById('status-text');
+            state.availability = toggle.checked ? "AVAILABLE" : "NOT_AVAILABLE";
+            
+            statusText.innerText = state.availability;
+            statusText.className = state.availability === "AVAILABLE" 
+                ? "text-sm font-bold text-emerald-600" 
+                : "text-sm font-bold text-slate-400";
+            
+            renderTasks();
+        }
+
+        // Workflow: Capabilities Setup
+        function toggleCapability(cap) {
+            if (state.capabilities.includes(cap)) {
+                state.capabilities = state.capabilities.filter(c => c !== cap);
+            } else {
+                state.capabilities.push(cap);
+            }
+            renderCapabilities();
+            renderTasks(); // Re-filter requests based on new capabilities
+        }
+
+        // Workflow: Accept Request -> IN_PROGRESS
+        function acceptRequest(reqId) {
+            if (state.activeTask) return alert("Complete your IN_PROGRESS task first.");
+            
+            const req = mockRequests.find(r => r.id === reqId);
+            if (req) {
+                req.status = "IN_PROGRESS";
+                state.activeTask = reqId;
+                renderTasks();
+                // TODO: Send mutation to Convex backend
+            }
+        }
+
+        // Workflow: Complete Request -> COMPLETED
+        function completeRequest() {
+            const req = mockRequests.find(r => r.id === state.activeTask);
+            if (req) {
+                req.status = "COMPLETED";
+                state.activeTask = null;
+                renderTasks();
+                // TODO: Send mutation to Convex backend
+            }
+        }
+
+        function renderCapabilities() {
+            const container = document.getElementById('capabilities-container');
+            container.innerHTML = allCapabilities.map(cap => {
+                const isActive = state.capabilities.includes(cap);
+                return `
+                    <button onclick="toggleCapability('${cap}')" 
+                        class="px-3 py-1.5 rounded-full text-[10px] font-bold transition-colors border ${
+                            isActive 
+                            ? 'bg-amber-100 text-amber-900 border-amber-200' 
+                            : 'bg-white text-slate-500 border-slate-200 hover:bg-slate-50'
+                        }">
+                        ${cap}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderTasks() {
+            const container = document.getElementById('task-list');
+            
+            if (state.availability === "NOT_AVAILABLE") {
+                container.innerHTML = `
+                    <div class="text-center py-8 text-slate-400 bg-slate-50 rounded-xl border border-slate-100 border-dashed">
+                        <i class="fa-solid fa-power-off text-2xl mb-3 text-slate-300"></i>
+                        <p class="text-sm font-medium">You are currently NOT_AVAILABLE.</p>
+                        <p class="text-xs mt-1">Toggle your status to receive matching requests.</p>
+                    </div>`;
+                return;
+            }
+
+            // Render IN_PROGRESS task
+            if (state.activeTask) {
+                const req = mockRequests.find(r => r.id === state.activeTask);
+                container.innerHTML = `
+                    <div class="bg-card-beige border border-amber-900/20 rounded-2xl p-5 shadow-sm relative overflow-hidden">
+                        <div class="absolute top-0 right-0 bg-amber-500 text-white text-[9px] font-bold px-3 py-1 rounded-bl-lg uppercase tracking-wider">
+                            ${req.status}
+                        </div>
+                        <h3 class="font-bold text-slate-900 mb-1 mt-2">${req.desc}</h3>
+                        <div class="flex space-x-3 text-xs text-slate-600 mb-4 font-medium">
+                            <span class="bg-white px-2 py-1 rounded border border-slate-200">${req.type}</span>
+                            <span class="bg-white px-2 py-1 rounded border border-slate-200"><i class="fa-solid fa-users text-slate-400 mr-1"></i> ${req.people}</span>
+                        </div>
+                        <button onclick="completeRequest()" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-medium py-3 rounded-xl transition-all shadow-md flex items-center justify-center space-x-2">
+                            <span>Mark as COMPLETED</span>
+                            <i class="fa-solid fa-check"></i>
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            // Filter PENDING requests by Capabilities
+            const visibleTasks = mockRequests.filter(r => 
+                state.capabilities.includes(r.type) && r.status === "PENDING"
+            );
+
+            if (visibleTasks.length === 0) {
+                container.innerHTML = `<p class="text-center py-6 text-xs text-slate-500">No pending requests match your current capabilities.</p>`;
+                return;
+            }
+
+            container.innerHTML = visibleTasks.map(req => `
+                <div class="bg-white border border-slate-200 rounded-2xl p-5 shadow-sm hover:border-slate-300 transition-colors">
+                    <div class="flex justify-between items-start mb-2">
+                        <span class="text-[10px] font-bold text-amber-600 bg-amber-50 px-2 py-0.5 rounded uppercase tracking-wide">${req.type}</span>
+                        <span class="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${req.distance} away</span>
+                    </div>
+                    <h3 class="font-bold text-slate-800 text-sm mb-3">${req.desc}</h3>
+                    <div class="flex justify-between items-center mt-2">
+                        <span class="text-xs text-slate-500 font-medium"><i class="fa-solid fa-users mr-1"></i> ${req.people} people</span>
+                        <button onclick="acceptRequest('${req.id}')" class="bg-[#111111] hover:bg-black text-white font-medium py-2 px-4 rounded-xl transition-all shadow flex items-center space-x-2 text-xs group">
+                            <span>Accept</span>
+                            <i class="fa-solid fa-arrow-right group-hover:translate-x-1 transition-transform"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        init();
+    </script>
+</body>
+</html>

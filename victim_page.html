@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f4f3ee">
+  <title>Aegis — Request help</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+  <link rel="stylesheet" href="victim_page.css">
+</head>
+
+<body>
+  <main class="hero">
+    <a class="wordmark" href="index.html" aria-label="Aegis home">aegis</a>
+
+    <section class="hero-copy" aria-labelledby="headline">
+      <br>
+      <p class="eyebrow">Request assistance</p>
+      <h1 id="headline">Tell us what you need.</h1>
+      <p class="description">
+        Share only what you can. A verified volunteer or coordinator will use
+        this information to help reach you safely.
+      </p>
+
+      <form class="help-form" action="#" method="post">
+        <fieldset>
+          <legend>What support do you need?</legend>
+
+          <div class="resource-options">
+            <label class="resource-option">
+              <input type="checkbox" name="resource[]" value="food">
+              <span>Food</span>
+            </label>
+
+            <label class="resource-option">
+              <input type="checkbox" name="resource[]" value="water">
+              <span>Water</span>
+            </label>
+
+            <label class="resource-option">
+              <input type="checkbox" name="resource[]" value="evacuation">
+              <span>Evacuation support</span>
+            </label>
+
+            <label class="resource-option">
+              <input type="checkbox" name="resource[]" value="shelter">
+              <span>Shelter station</span>
+            </label>
+
+            <label class="resource-option">
+              <input type="checkbox" name="resource[]" value="relief">
+              <span>Relief station</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="form-grid">
+          <label class="form-field">
+            <span>Contact number <em>*</em></span>
+            <input
+              type="tel"
+              name="phone"
+              inputmode="tel"
+              autocomplete="tel"
+              placeholder="Enter a reachable number"
+              required
+            >
+          </label>
+
+          <label class="form-field">
+            <span>People needing help <em>*</em></span>
+            <input
+              type="number"
+              name="people_count"
+              min="1"
+              max="100"
+              placeholder="For example, 3"
+              required
+            >
+          </label>
+        </div>
+
+        <label class="form-field">
+          <span>Nearest landmark <em>*</em></span>
+          <input
+            type="text"
+            name="landmark"
+            autocomplete="street-address"
+            placeholder="For example, near Central School gate"
+            required
+          >
+        </label>
+
+        <label class="form-field">
+          <span>Urgency level <em>*</em></span>
+          <select name="urgency" required>
+            <option value="" selected disabled>Select urgency</option>
+            <option value="critical">Critical — immediate danger or medical emergency</option>
+            <option value="high">High — evacuation or essential supplies needed soon</option>
+            <option value="standard">Standard — assistance needed</option>
+          </select>
+        </label>
+
+        <label class="form-field">
+          <span>Anything responders should know? <small>Optional</small></span>
+          <textarea
+            name="notes"
+            rows="3"
+            maxlength="300"
+            placeholder="For example, an elderly person, child, injury, blocked road, or safe meeting point."
+          ></textarea>
+        </label>
+
+        <label class="location-choice">
+          <input type="checkbox" name="location_permission" value="yes">
+          <span>
+            <strong>Share my current location</strong>
+            <small>This helps us direct the nearest available volunteer.</small>
+          </span>
+        </label>
+
+        <nav class="actions" aria-label="Request actions">
+          <a class="back-link" href="index.html">← Back</a>
+          <button class="action-button" type="submit">Send help request</button>
+        </nav>
+      </form>
+    </section>
+  </main>
+</body>
+</html>

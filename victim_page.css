@@ -1,0 +1,359 @@
+:root {
+  --paper: #f4f3ee;
+  --cream: #f7f2e8;
+  --ink: #202b26;
+  --forest: #27483d;
+  --button: #101713;
+  --button-hover: #1f2b25;
+  --white: #fffefa;
+  --line: rgba(32, 43, 38, 0.18);
+  --muted: #58635d;
+  --amber: #e9a13b;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font-family: "Manrope", Arial, sans-serif;
+}
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  width: 100%;
+  min-height: 100svh;
+  overflow: hidden;
+  padding: 150px 4.1% 72px;
+
+  background-color: var(--paper);
+  background-image: url("aegis_bgimage.png");
+  background-position: right center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.hero::before {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+
+  background: linear-gradient(
+    90deg,
+    rgba(247, 242, 232, 0.97) 0%,
+    rgba(247, 242, 232, 0.93) 45%,
+    rgba(247, 242, 232, 0.63) 64%,
+    rgba(247, 242, 232, 0.16) 82%,
+    transparent 100%
+  );
+}
+
+.wordmark {
+  position: absolute;
+  z-index: 1;
+  top: 8.5%;
+  left: 4.1%;
+  color: var(--button);
+  font: 500 clamp(44px, 6vw, 64px) / 0.9 "DM Serif Display", Georgia, serif;
+  letter-spacing: -0.055em;
+  text-decoration: none;
+}
+
+.hero-copy {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 720px);
+}
+
+.eyebrow {
+  margin: 0 0 9px;
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+h1 {
+  margin: 0;
+  color: var(--forest);
+  font: italic 400 clamp(34px, 4vw, 52px) / 1.1 "DM Serif Display", Georgia, serif;
+  letter-spacing: -0.025em;
+}
+
+.description {
+  max-width: 610px;
+  margin: 14px 0 28px;
+  color: #252e29;
+  font-size: clamp(16px, 1.5vw, 19px);
+  line-height: 1.5;
+}
+
+.help-form {
+  width: min(100%, 680px);
+  padding: 28px;
+  border: 1px solid rgba(32, 43, 38, 0.12);
+  border-radius: 20px;
+  background: rgba(255, 254, 250, 0.75);
+  box-shadow: 0 14px 42px rgba(39, 72, 61, 0.1);
+  backdrop-filter: blur(8px);
+}
+
+fieldset {
+  margin: 0 0 22px;
+  padding: 0;
+  border: 0;
+}
+
+legend,
+.form-field > span {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--ink);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+em {
+  color: #ad4d3e;
+  font-style: normal;
+}
+
+small {
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.resource-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.resource-option {
+  position: relative;
+  cursor: pointer;
+}
+
+.resource-option input {
+  position: absolute;
+  opacity: 0;
+}
+
+.resource-option span {
+  display: block;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 254, 250, 0.85);
+  color: var(--ink);
+  font-size: 13px;
+  font-weight: 700;
+  transition: 0.18s ease;
+}
+
+.resource-option input:checked + span {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--white);
+}
+
+.resource-option input:focus-visible + span {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+}
+
+.form-field {
+  display: block;
+  margin-top: 17px;
+}
+
+input,
+select,
+textarea {
+  width: 100%;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  background: rgba(255, 254, 250, 0.9);
+  color: var(--ink);
+  font: inherit;
+  font-size: 14px;
+  outline: none;
+}
+
+input,
+select {
+  min-height: 47px;
+  padding: 11px 13px;
+}
+
+textarea {
+  min-height: 90px;
+  padding: 12px 13px;
+  resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #788078;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: var(--forest);
+  box-shadow: 0 0 0 3px rgba(39, 72, 61, 0.14);
+}
+
+.location-choice {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  margin-top: 20px;
+  padding: 13px;
+  border-radius: 12px;
+  background: rgba(39, 72, 61, 0.08);
+  cursor: pointer;
+}
+
+.location-choice input {
+  width: 18px;
+  min-height: auto;
+  margin: 2px 0 0;
+  accent-color: var(--forest);
+}
+
+.location-choice strong,
+.location-choice small {
+  display: block;
+}
+
+.location-choice strong {
+  margin-bottom: 3px;
+  font-size: 14px;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-top: 24px;
+}
+
+.action-button {
+  min-height: 48px;
+  padding: 11px 19px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 15px;
+  background: var(--button);
+  color: var(--white);
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background-color 0.18s ease, transform 0.18s ease;
+}
+
+.action-button:hover {
+  background: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+.back-link {
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.back-link:hover {
+  text-decoration: underline;
+}
+
+.action-button:focus-visible,
+.back-link:focus-visible,
+.wordmark:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 4px;
+}
+
+@media (max-width: 640px) {
+  .hero {
+    min-height: 100svh;
+    padding: 124px 5% 40px;
+    background-position: 63% center;
+  }
+
+  .hero::before {
+    background: rgba(247, 242, 232, 0.91);
+  }
+
+  .wordmark {
+    top: 6%;
+    left: 5%;
+    font-size: 51px;
+  }
+
+  h1 {
+    font-size: 38px;
+  }
+
+  .description {
+    margin-bottom: 22px;
+    font-size: 16px;
+  }
+
+  .help-form {
+    padding: 20px 16px;
+    border-radius: 16px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .resource-options {
+    gap: 8px;
+  }
+
+  .resource-option span {
+    padding: 9px 11px;
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+    align-items: stretch;
+  }
+
+  .action-button,
+  .back-link {
+    width: 100%;
+    text-align: center;
+  }
+
+  .action-button {
+    min-height: 52px;
+  }
+}

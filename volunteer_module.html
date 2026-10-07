@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEGIS — Volunteer Dashboard</title>
+    <link rel="stylesheet" href="volunteer_module.css">
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdf4',
+                            100: '#dcfce7',
+                            500: '#22c55e',
+                            600: '#16a34a',
+                            700: '#15803d',
+                            900: '#14532d'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans antialiased">
+
+    <!-- Top Navigation Header -->
+    <header class="border-b border-slate-800 bg-slate-950/80 backdrop-blur sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-500/10 p-2 rounded-lg border border-emerald-500/20">
+                    <i class="fa-solid fa-shield-halved text-emerald-400 text-xl"></i>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider text-white">AEGIS</span>
+                    <span class="text-xs bg-emerald-950 text-emerald-400 border border-emerald-800/50 px-2 py-0.5 rounded ml-2 font-mono">VOLUNTEER</span>
+                </div>
+            </div>
+
+            <!-- Profile & Quick Info -->
+            <div class="flex items-center space-x-4">
+                <div class="text-right hidden sm:block">
+                    <p class="text-sm font-semibold text-slate-200" id="volunteer-name">Rahul Sharma</p>
+                    <p class="text-xs text-slate-400" id="last-active">Last active: Just now</p>
+                </div>
+                <div class="h-9 w-9 rounded-full bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center font-bold text-emerald-400">
+                    RS
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
+
+        <!-- Verification Status Banner -->
+        <div id="verification-banner" class="rounded-xl border p-4 flex items-center justify-between transition-all bg-emerald-950/30 border-emerald-500/30 text-emerald-300">
+            <div class="flex items-center space-x-3">
+                <i class="fa-solid fa-[#verification-icon] fa-circle-check text-xl text-emerald-400" id="verification-icon"></i>
+                <div>
+                    <h3 class="font-bold text-sm tracking-wide uppercase" id="verification-title">Account Status: APPROVED</h3>
+                    <p class="text-xs text-slate-400" id="verification-desc">You are verified and eligible to receive and accept disaster assistance requests.</p>
+                </div>
+            </div>
+            <span class="text-xs px-2.5 py-1 rounded-full font-mono font-semibold uppercase bg-emerald-500/20 text-emerald-400 border border-emerald-500/30" id="badge-status">
+                APPROVED
+            </span>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+
+            <!-- Left Column: Availability & Capabilities Control Panel -->
+            <div class="space-y-6">
+                
+                <!-- Availability Toggle Box -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-xl">
+                    <h2 class="text-base font-semibold text-white mb-4 flex items-center">
+                        <i class="fa-solid fa-power-off text-emerald-400 mr-2"></i> Availability Status
+                    </h2>
+                    
+                    <div class="bg-slate-900 border border-slate-800 rounded-lg p-4 flex items-center justify-between mb-4">
+                        <div>
+                            <p class="text-xs text-slate-400 uppercase font-mono">Current State</p>
+                            <p class="text-lg font-bold text-emerald-400" id="availability-state-text">AVAILABLE</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" id="availability-toggle" class="sr-only peer" checked onchange="toggleAvailability()">
+                            <div class="w-14 h-7 bg-slate-800 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-600"></div>
+                        </label>
+                    </div>
+
+                    <p class="text-xs text-slate-400 leading-relaxed">
+                        <i class="fa-solid fa-circle-info text-slate-500 mr-1"></i>
+                        Aegis only assigns requests when your state is explicitly set to <strong class="text-slate-200">AVAILABLE</strong>. Logging in alone does not mark you active.
+                    </p>
+                </div>
+
+                <!-- Capabilities Matrix -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-xl">
+                    <h2 class="text-base font-semibold text-white mb-3 flex items-center">
+                        <i class="fa-solid fa-layer-group text-emerald-400 mr-2"></i> Registered Capabilities
+                    </h2>
+                    <p class="text-xs text-slate-400 mb-4">Select the aid capabilities you are qualified to perform:</p>
+
+                    <div class="grid grid-cols-2 gap-2" id="capabilities-grid">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <!-- Active Location Card -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-xl">
+                    <div class="flex items-center justify-between mb-3">
+                        <h2 class="text-base font-semibold text-white flex items-center">
+                            <i class="fa-solid fa-location-dot text-emerald-400 mr-2"></i> Operational Base
+                        </h2>
+                        <button onclick="detectLocation()" class="text-xs text-emerald-400 hover:text-emerald-300 transition flex items-center">
+                            <i class="fa-solid fa-arrows-rotate mr-1"></i> Update GPS
+                        </button>
+                    </div>
+                    <div class="bg-slate-900 border border-slate-800 rounded-lg p-3 text-xs text-slate-300 space-y-1">
+                        <p id="location-name" class="font-medium text-white">Connaught Place, New Delhi</p>
+                        <p id="location-coords" class="font-mono text-slate-500">28.6315° N, 77.2167° E</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Column: Main Assistance Workflow Dashboard -->
+            <div class="lg:col-span-2 space-y-6">
+
+                <!-- Assigned / In Progress Task Panel -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-xl">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+                        <h2 class="text-base font-semibold text-white flex items-center">
+                            <i class="fa-solid fa-bars-progress text-amber-400 mr-2"></i> My Active Request (In-Progress)
+                        </h2>
+                        <span id="active-task-count" class="text-xs bg-amber-500/10 text-amber-400 border border-amber-500/20 px-2 py-0.5 rounded font-mono">1 Active</span>
+                    </div>
+
+                    <div id="active-task-container">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <!-- Eligible Nearby Requests Panel -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-5 shadow-xl">
+                    <div class="flex items-center justify-between mb-4 border-b border-slate-800 pb-3">
+                        <div>
+                            <h2 class="text-base font-semibold text-white flex items-center">
+                                <i class="fa-solid fa-hand-holding-hand text-emerald-400 mr-2"></i> Nearby Assistance Requests
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5">Filter matching requests based on your availability & capabilities</p>
+                        </div>
+                        <span id="pending-task-count" class="text-xs bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 rounded font-mono">2 Available</span>
+                    </div>
+
+                    <div class="space-y-4" id="pending-requests-container">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <!-- JavaScript Module Logic -->
+    <script>
+        // Standardized state variables adhering strictly to Pointer 47
+        const volunteer = {
+            userId: "vol_8921",
+            name: "Rahul Sharma",
+            verificationStatus: "APPROVED", // PENDING | APPROVED | REJECTED | SUSPENDED
+            availability: "AVAILABLE",     // AVAILABLE | NOT_AVAILABLE
+            capabilities: ["Transportation", "First aid", "Food distribution"],
+            location: {
+                name: "Connaught Place, New Delhi",
+                lat: 28.6315,
+                lng: 77.2167
+            },
+            lastActiveAt: new Date()
+        };
+
+        const allCapabilities = [
+            "Food distribution",
+            "Water distribution",
+            "First aid",
+            "Transportation",
+            "Evacuation assistance",
+            "Shelter assistance"
+        ];
+
+        let requests = [
+            {
+                requestId: "REQ-701",
+                victimId: "vic_102",
+                type: "Transportation",
+                description: "Family of 4 stranded near waterlogged junction requiring transport to nearest shelter.",
+                peopleCount: 4,
+                location: "Minto Bridge, New Delhi (1.8 km away)",
+                status: "PENDING", // PENDING | ACCEPTED | IN_PROGRESS | COMPLETED | CANCELLED
+                createdAt: "10 mins ago"
+            },
+            {
+                requestId: "REQ-702",
+                victimId: "vic_305",
+                type: "First aid",
+                description: "Minor injuries sustained during minor building collapse. Basic medical supplies required.",
+                peopleCount: 2,
+                location: "Karol Bagh, New Delhi (3.2 km away)",
+                status: "PENDING",
+                createdAt: "18 mins ago"
+            },
+            {
+                requestId: "REQ-703",
+                victimId: "vic_410",
+                type: "Food distribution",
+                description: "Large group of stranded commuters in need of food and water.",
+                peopleCount: 15,
+                location: "Rajiv Chowk Metro Station, New Delhi (2.5 km away)",
+                status: "PENDING",
+                createdAt: "25 mins ago"
+            }
+            
+        ];
+
+        // Core Render Functions
+        function renderCapabilities() {
+            const container = document.getElementById('capabilities-grid');
+            container.innerHTML = allCapabilities.map(cap => {
+                const isSelected = volunteer.capabilities.includes(cap);
+                return `
+                    <button onclick="toggleCapability('${cap}')" 
+                        class="text-xs p-2.5 rounded-lg border text-left transition flex items-center justify-between ${
+                            isSelected 
+                            ? 'bg-emerald-950/60 border-emerald-500/50 text-emerald-300 font-medium' 
+                            : 'bg-slate-900 border-slate-800 text-slate-400 hover:border-slate-700'
+                        }">
+                        <span>${cap}</span>
+                        ${isSelected ? '<i class="fa-solid fa-check text-emerald-400 text-xs"></i>' : ''}
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function renderRequests() {
+            const activeContainer = document.getElementById('active-task-container');
+            const pendingContainer = document.getElementById('pending-requests-container');
+
+            const activeRequest = requests.find(r => (r.status === 'ACCEPTED' || r.status === 'IN_PROGRESS') && r.volunteerId === volunteer.userId);
+            const pendingRequests = requests.filter(r => r.status === 'PENDING');
+
+            // Render Active Request
+            if (activeRequest) {
+                document.getElementById('active-task-count').textContent = '1 Active Task';
+                activeContainer.innerHTML = `
+                    <div class="bg-amber-950/20 border border-amber-500/30 rounded-xl p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <span class="bg-amber-500/20 text-amber-300 border border-amber-500/30 text-[10px] font-mono uppercase px-2 py-0.5 rounded font-bold">${activeRequest.type}</span>
+                                <h3 class="text-sm font-bold text-white mt-2">${activeRequest.description}</h3>
+                            </div>
+                            <span class="text-xs font-mono text-amber-400 bg-amber-950 px-2 py-1 rounded border border-amber-800/50">${activeRequest.status}</span>
+                        </div>
+                        <div class="text-xs text-slate-300 space-y-1">
+                            <p><i class="fa-solid fa-users text-slate-400 w-4"></i> People Count: <strong>${activeRequest.peopleCount}</strong></p>
+                            <p><i class="fa-solid fa-location-dot text-slate-400 w-4"></i> Location: ${activeRequest.location}</p>
+                        </div>
+                        <div class="pt-2 border-t border-amber-500/20 flex justify-end">
+                            <button onclick="completeRequest('${activeRequest.requestId}')" class="bg-emerald-600 hover:bg-emerald-500 text-white font-medium text-xs px-4 py-2 rounded-lg transition flex items-center space-x-1.5 shadow-lg shadow-emerald-900/30">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>Mark Request as COMPLETED</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                document.getElementById('active-task-count').textContent = '0 Active';
+                activeContainer.innerHTML = `
+                    <div class="text-center py-6 text-slate-500 text-xs border border-dashed border-slate-800 rounded-lg">
+                        <i class="fa-solid fa-inbox text-2xl mb-2 text-slate-600"></i>
+                        <p>No active accepted request. Select a pending request below to begin.</p>
+                    </div>
+                `;
+            }
+
+            // Render Pending Requests
+            document.getElementById('pending-task-count').textContent = `${pendingRequests.length} Available`;
+
+            if (volunteer.availability !== 'AVAILABLE') {
+                pendingContainer.innerHTML = `
+                    <div class="bg-slate-900/50 border border-slate-800 p-6 rounded-lg text-center text-xs text-slate-400">
+                        <i class="fa-solid fa-circle-exclamation text-amber-400 text-xl mb-2"></i>
+                        <p class="font-medium text-slate-300">You are currently set to NOT_AVAILABLE.</p>
+                        <p class="mt-1 text-slate-500">Toggle your availability to AVAILABLE above to accept incoming requests.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            if (pendingRequests.length === 0) {
+                pendingContainer.innerHTML = `
+                    <div class="text-center py-8 text-slate-500 text-xs">
+                        <p>No pending assistance requests currently match your location/capabilities.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            pendingContainer.innerHTML = pendingRequests.map(req => {
+                const matchesCapability = volunteer.capabilities.includes(req.type);
+                return `
+                    <div class="bg-slate-900 border border-slate-800 hover:border-slate-700 transition rounded-xl p-4 space-y-3">
+                        <div class="flex justify-between items-start">
+                            <div class="space-y-1">
+                                <div class="flex items-center space-x-2">
+                                    <span class="bg-emerald-950 text-emerald-400 border border-emerald-800 text-[10px] font-mono px-2 py-0.5 rounded font-bold">${req.type}</span>
+                                    <span class="text-[10px] text-slate-500 font-mono">${req.createdAt}</span>
+                                </div>
+                                <p class="text-xs font-semibold text-slate-200 mt-1">${req.description}</p>
+                            </div>
+                            <span class="text-[10px] bg-slate-800 text-slate-400 px-2 py-0.5 rounded font-mono">${req.status}</span>
+                        </div>
+
+                        <div class="flex items-center justify-between text-xs text-slate-400 pt-1">
+                            <div class="space-x-3">
+                                <span><i class="fa-solid fa-users text-slate-500 mr-1"></i>${req.peopleCount} People</span>
+                                <span><i class="fa-solid fa-location-dot text-slate-500 mr-1"></i>${req.location}</span>
+                            </div>
+
+                            <button onclick="acceptRequest('${req.requestId}')" 
+                                ${!matchesCapability ? 'disabled' : ''}
+                                class="px-3 py-1.5 rounded-lg font-medium text-xs transition flex items-center space-x-1 ${
+                                    matchesCapability 
+                                    ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-950' 
+                                    : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                                }">
+                                <i class="fa-solid fa-check"></i>
+                                <span>${matchesCapability ? 'ACCEPT' : 'Capability Mismatch'}</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Action Handlers
+        function toggleAvailability() {
+            const toggle = document.getElementById('availability-toggle');
+            volunteer.availability = toggle.checked ? 'AVAILABLE' : 'NOT_AVAILABLE';
+            
+            const stateText = document.getElementById('availability-state-text');
+            stateText.textContent = volunteer.availability;
+            stateText.className = volunteer.availability === 'AVAILABLE' ? 'text-lg font-bold text-emerald-400' : 'text-lg font-bold text-slate-500';
+            
+            volunteer.lastActiveAt = new Date();
+            document.getElementById('last-active').textContent = `Last active: Just now`;
+
+            renderRequests();
+        }
+
+        function toggleCapability(cap) {
+            if (volunteer.capabilities.includes(cap)) {
+                volunteer.capabilities = volunteer.capabilities.filter(c => c !== cap);
+            } else {
+                volunteer.capabilities.push(cap);
+            }
+            renderCapabilities();
+            renderRequests();
+        }
+
+        function acceptRequest(requestId) {
+            const activeTask = requests.find(r => r.status === 'IN_PROGRESS' && r.volunteerId === volunteer.userId);
+            if (activeTask) {
+                alert("Please complete your existing task before accepting a new request.");
+                return;
+            }
+
+            const req = requests.find(r => r.requestId === requestId);
+            if (req) {
+                req.status = 'IN_PROGRESS';
+                req.volunteerId = volunteer.userId;
+                req.acceptedAt = 'Just now';
+                renderRequests();
+            }
+        }
+
+        function completeRequest(requestId) {
+            const req = requests.find(r => r.requestId === requestId);
+            if (req) {
+                req.status = 'COMPLETED';
+                renderRequests();
+            }
+        }
+
+        function detectLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition((pos) => {
+                    volunteer.location.lat = pos.coords.latitude.toFixed(4);
+                    volunteer.location.lng = pos.coords.longitude.toFixed(4);
+                    document.getElementById('location-coords').textContent = `${volunteer.location.lat}° N, ${volunteer.location.lng}° E`;
+                });
+            }
+        }
+
+        // Initialize dashboard
+        renderCapabilities();
+        renderRequests();
+    </script>
+</body>
+</html>
