@@ -20,6 +20,6 @@
     "isolatedModules": true,
     "noEmit": true
   },
-  "include": ["./**/*", "../convex.js"],
+  "include": ["./**/*", "../src/convex.js"],
   "exclude": ["./_generated"]
 }
