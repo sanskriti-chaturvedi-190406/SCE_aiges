@@ -31,6 +31,18 @@ console.log("[Aegis] Registration Clerk → Convex auth configured");
 
 console.log("[Aegis] Registration page loaded");
 
+const signOutButton = document.getElementById("sign-out-button");
+
+signOutButton.addEventListener("click", async () => {
+  console.log("[Aegis] Signing out...");
+
+  await clerk.signOut();
+
+  console.log("[Aegis] Signed out successfully");
+
+  window.location.href = "/loginpage.html";
+});;
+
 const form = document.getElementById("registration-form");
 const status = document.getElementById("status");
 
@@ -45,7 +57,7 @@ form.addEventListener("submit", async (event) => {
 
   const name = document.getElementById("name").value.trim();
   const phone = document.getElementById("phone").value.trim();
-  const role = document.getElementById("role").value;
+  const role = sessionStorage.getItem("aegisRegistrationRole");
 
   console.log("[Aegis] Registration data:", {
     name,
@@ -71,7 +83,9 @@ form.addEventListener("submit", async (event) => {
 
     status.textContent = "Registration successful!";
 
-    window.location.href = "/index.html";
+    sessionStorage.removeItem("aegisRegistrationRole");
+    
+    window.location.href = "/dashboard.html";
   } catch (error) {
     console.error("[Aegis] Registration failed:", error);
     status.textContent = "Registration failed. Please try again.";

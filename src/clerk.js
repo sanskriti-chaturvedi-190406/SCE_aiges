@@ -63,8 +63,8 @@ if (clerk.isSignedIn) {
     console.log("[Aegis] Convex getCurrentUser result:", currentUser);
 
     if (currentUser === null) {
-      console.log("[Aegis] No Aegis profile found → registration");
-      window.location.href = "/registration.html";
+      console.log("[Aegis] No Aegis profile found → role selection");
+      window.location.href = "/role-selection.html";
     } else {
       console.log("[Aegis] Aegis profile found → dashboard");
       window.location.href = "/dashboard.html";
