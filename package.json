@@ -22,5 +22,9 @@
   "homepage": "https://github.com/sanskriti-chaturvedi-190406/Aegis#readme",
   "devDependencies": {
     "vite": "^8.3.3"
+  },
+  "dependencies": {
+    "@clerk/clerk-js": "^6.38.0",
+    "convex": "^1.46.0"
   }
 }
