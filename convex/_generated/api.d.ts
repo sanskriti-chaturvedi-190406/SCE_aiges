@@ -10,6 +10,7 @@
 
 import type * as reliefStations from "../reliefStations.js";
 import type * as requests from "../requests.js";
+import type * as shelters from "../shelters.js";
 import type * as users from "../users.js";
 
 import type {
@@ -21,6 +22,7 @@ import type {
 declare const fullApi: ApiFromModules<{
   reliefStations: typeof reliefStations;
   requests: typeof requests;
+  shelters: typeof shelters;
   users: typeof users;
 }>;
 
