@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Aegis — Registration</title>
+</head>
+
+<body>
+  <h1>Complete your Aegis profile</h1>
+
+  <form id="registration-form">
+    <div>
+      <label for="name">Full Name</label>
+      <input
+        type="text"
+        id="name"
+        name="name"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="phone">Phone Number</label>
+      <input
+        type="tel"
+        id="phone"
+        name="phone"
+        required
+      >
+    </div>
+
+    <div>
+      <label for="role">I am registering as</label>
+      <select id="role" name="role" required>
+        <option value="">Select a role</option>
+        <option value="victim">Victim</option>
+        <option value="volunteer">Volunteer</option>
+        <option value="stationOp">Relief Station Operator</option>
+        <option value="shelterOp">Shelter Operator</option>
+      </select>
+    </div>
+
+    <button type="submit">Continue</button>
+  </form>
+
+  <p id="status"></p>
+
+  <script type="module" src="/src/registration.js"></script>
+</body>
+</html>
